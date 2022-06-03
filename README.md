@@ -4,9 +4,9 @@
     DATABASES = { 
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'skymarket',
-            'USER': 'skymarket',
-            'PASSWORD': 'skymarket',
+            'NAME': 'todolist',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres123',
             'HOST': 'localhost',
             'PORT': '5432',
         }
@@ -71,14 +71,14 @@
 1. # Подключение базы данных Postgres.
  создание докер контейнера с заданными параметрами
  docker run --name todolist -e POSTGRES_DB=todolist -e POSTGRES_PASSWORD=postgres123 -p 5432:5432 -d postgres
- # Настройки coursework_6.settings
+ # Настройки todolist.settings
  # подключение postgresql (подключаем коробку) 
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'skymarket',
-            'USER': 'skymarket',
-            'PASSWORD': 'skymarket',
+            'NAME': 'todolist',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres123',
             'HOST': 'localhost',
             'PORT': '5432',
         }
@@ -109,12 +109,12 @@
         'BLACKLIST_AFTER_ROTATION': True # Блокировать исп. TOKEN
     }
 
- # Настройки coursework_6.urls
+ # Настройки todolist.urls
 `  path('api-auth/', include('rest_framework.urls')) # urls с авторизацией`
 
 3. # Подключение CORS headers.
  poetry add django-cors-headers
-  # Настройки coursework_6.settings
+  # Настройки todolist.settings
 
     INSTALLED_APPS = [
         ...
@@ -142,7 +142,7 @@
 4. # Подключение Swagger.
  авто документация проекта django
  poetry add drf-spectacular
-  # Настройки coursework_6.settings
+  # Настройки todolist.settings
  
     INSTALLED_APPS = [
         ...
@@ -153,11 +153,11 @@
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.olpenapi.AutoShema", # схема по умолчанию
     }
     SPECTACULAR_SETTINGS ={ 
-        "TITLE": "Курсовая работа №6 API",
+        "TITLE": "список дел",
         "DESCRIPTION": "Описание API",
         "VERSION": "0.0.1",
        }
- # Настройки coursework_6.urls
+ # Настройки todolist.urls
 `  path('api/schema/', SpectacularAPIView.as_view(), name='schema') # urls c JSON `
 `  path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema')) # графический интерфкейс  `
 
@@ -165,7 +165,7 @@
  # Для настроек пользователей системы
  poetry add djoser
  
- # Настройки coursework_6.settings
+ # Настройки todolist.settings
     INSTALLED_APPS = [
         ...
         'djoser',
