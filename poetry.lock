@@ -41,7 +41,7 @@ testing = ["coverage[toml] (>=5.0a4)", "pytest (>=4.6.11)"]
 
 [[package]]
 name = "django-phonenumber-field"
-version = "6.1.0"
+version = "6.3.0"
 description = "An international phone number field for django models."
 category = "main"
 optional = false
@@ -53,6 +53,14 @@ Django = ">=2.2"
 [package.extras]
 phonenumbers = ["phonenumbers (>=7.0.2)"]
 phonenumberslite = ["phonenumberslite (>=7.0.2)"]
+
+[[package]]
+name = "phonenumbers"
+version = "8.12.50"
+description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+category = "main"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "psycopg2"
@@ -81,7 +89,7 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "2df5f4dc8c154b60b49de2462945c860c7220e82b6ef415fdcf57e4fa4d5f50e"
+content-hash = "5e562d9de3e9b72328286a888173ddc8c566cb0974f682805ff7cd9f4a855f55"
 
 [metadata.files]
 asgiref = [
@@ -97,8 +105,12 @@ django-environ = [
     {file = "django_environ-0.8.1-py2.py3-none-any.whl", hash = "sha256:42593bee519a527602a467c7b682aee1a051c2597f98c45f4f4f44169ecdb6e5"},
 ]
 django-phonenumber-field = [
-    {file = "django-phonenumber-field-6.1.0.tar.gz", hash = "sha256:b1ff950f90a8911ff323ccf77c8f6fe4299a9f671fa61c8734a6994359f07446"},
-    {file = "django_phonenumber_field-6.1.0-py3-none-any.whl", hash = "sha256:897b902a1654b0eb21f6268498a3359e2c4eb90af9585cb8693af186ede8c5bb"},
+    {file = "django-phonenumber-field-6.3.0.tar.gz", hash = "sha256:668db2e61559908ce8dcd660ac716262c7922cc29ec76ede3f9b88772992dc28"},
+    {file = "django_phonenumber_field-6.3.0-py3-none-any.whl", hash = "sha256:188ca55b27ef1ac4d9b279d90ee3f1377ece6cd9ed8c63f0a66efd565bf9ad6f"},
+]
+phonenumbers = [
+    {file = "phonenumbers-8.12.50-py2.py3-none-any.whl", hash = "sha256:56713403b4160b59ea1fef4e842ddeb70931055146d794d371b60cd4b5f05fb8"},
+    {file = "phonenumbers-8.12.50.tar.gz", hash = "sha256:f00d67f20875804f4fade4803a9438294029982ac929c6ba303e1f0290cf5d45"},
 ]
 psycopg2 = [
     {file = "psycopg2-2.9.3-cp310-cp310-win32.whl", hash = "sha256:083707a696e5e1c330af2508d8fab36f9700b26621ccbcb538abe22e15485362"},
