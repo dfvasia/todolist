@@ -15,4 +15,4 @@ COPY . .
 
 RUN ["chmod", "+x", "./run.sh"]
 
-CMD ./run.sh
+CMD manage.py runserver 0.0.0.0:8000

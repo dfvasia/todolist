@@ -8,10 +8,7 @@ services:
     depends_on:
       - api
   api:
-    build:
-      context: .
-    ports:
-      - "8000:8000"
+    image: $DOCKER_USER/flask-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
@@ -20,8 +17,7 @@ services:
     volumes:
       - ./env:/project/env
   migrations:
-    build:
-      context: .
+    image: $DOCKER_USER/flask-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
@@ -30,10 +26,8 @@ services:
     command: ./run.sh
   postgres:
     image: postgres:latest
-    ports:
-      - "5432:5432"
     environment:
-      POSTGRES_DB: todolist
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
