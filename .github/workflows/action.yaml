@@ -41,5 +41,6 @@
             username: ${{ secrets.SSH_USERNAME }}
             password: ${{ secrets.SSH_PASSWORD }}
             script: |
-              cd flask-app
+              
+              cd django-6-app
               echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d

@@ -1,6 +1,5 @@
 0. # Настройки todolist.settings
 
-
 # подключение postgresql (подключаем коробку)    
     DATABASES = { 
         'default': {
