@@ -8,7 +8,7 @@ services:
     depends_on:
       - api
   api:
-    image: $DOCKER_USER/flask-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: $DOCKER_USER/django-6-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
@@ -17,7 +17,7 @@ services:
     volumes:
       - ./env:/project/env
   migrations:
-    image: $DOCKER_USER/flask-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: $DOCKER_USER/django-6-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
