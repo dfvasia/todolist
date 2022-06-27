@@ -7,12 +7,9 @@ ENV PATH="/root/.poetry/bin:$PATH"
 WORKDIR project/
 COPY poetry.lock pyproject.toml /project/
 
-RUN ls /root/.poetry/bin
 RUN poetry config virtualenvs.create false --local
 RUN poetry install
 
 COPY . .
 
 RUN ["chmod", "+x", "./run.sh"]
-
-CMD manage.py runserver 0.0.0.0:8000

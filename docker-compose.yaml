@@ -1,45 +1,29 @@
 version: "3.9"
-
+   
 services:
-  front:
-    image: sermalenk/skypro-front:lesson-34
+#  front:
+#    image: sermalenk/skypro-front:lesson-34
+#    ports:
+#      - "8080:80"
+#    depends_on:
+#      - api
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=todoslim
+      - POSTGRES_USER=skypro
+      - POSTGRES_PASSWORD=postgres
     ports:
-      - "8080:80"
-    depends_on:
-      - api
+      - "5432:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
   api:
-    build:
-      context: .
+    build: .
+#    volumes:
+#      - ./env:/project/env
+#      - .:/project
     ports:
       - "8000:8000"
     depends_on:
-      postgres:
-        condition: service_healthy
-      migrations:
-        condition: service_completed_successfully
-    volumes:
-      - ./env:/project/env
-  migrations:
-    build:
-      context: .
-    depends_on:
-      postgres:
-        condition: service_healthy
-    volumes:
-      - ./env:/project/env
+      - db
     command: ./run.sh
-  postgres:
-    image: postgres:latest
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: todolist
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data

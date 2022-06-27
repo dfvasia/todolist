@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  front:
+    image: sermalenk/skypro-front:lesson-34
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+  api:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./env:/project/env
+  migrations:
+    build:
+      context: .
+    depends_on:
+      postgres:
+        condition: service_completed_successfully
+    volumes:
+      - ./env:/project/env
+    command: ./run.sh
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: todolist
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./django-data:/var/lib/postgresql/data
+      - ./django-code:/project
