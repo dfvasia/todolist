@@ -9,31 +9,27 @@ services:
       - api
   api:
     image: $DOCKER_USER/django-6-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    depends_on:
-      postgres:
-        condition: service_healthy
-      migrations:
-        condition: service_completed_successfully
     volumes:
       - ./env:/project/env
-  migrations:
-    image: $DOCKER_USER/django-6-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+#      - .:/project
+    ports:
+      - "8000:8000"
     depends_on:
-      postgres:
+      database:
         condition: service_healthy
-    volumes:
-      - ./env:/project/env
     command: ./run.sh
-  postgres:
-    image: postgres:latest
+  database:
+    image: postgres
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      - POSTGRES_DB=todoslim
+      - POSTGRES_USER=skypro
+      - POSTGRES_PASSWORD=postgres1234
+    ports:
+      - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
+      test: [ "CMD-SHELL", "pg_isready -U skypro -d todoslim" ]
+      interval: 15s
       timeout: 5s
       retries: 5
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql/data

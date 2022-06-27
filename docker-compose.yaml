@@ -1,12 +1,12 @@
 version: "3.9"
    
 services:
-#  front:
-#    image: sermalenk/skypro-front:lesson-34
-#    ports:
-#      - "8080:80"
-#    depends_on:
-#      - api
+  front:
+    image: sermalenk/skypro-front:lesson-34
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
   database:
     image: postgres
     environment:
@@ -15,6 +15,11 @@ services:
       - POSTGRES_PASSWORD=postgres1234
     ports:
       - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U skypro -d todoslim" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./data/db:/var/lib/postgresql/data
   api:
@@ -25,5 +30,6 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - database
-#    command: ./run.sh
+      database:
+        condition: service_healthy
+    command: ./run.sh
