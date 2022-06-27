@@ -1,10 +1,9 @@
-.idea
-.git
-.github
-
-
+*idea*
+*git*
+env/.env
+*Dockerfile*
+docker-compose-v1.yaml
 docker-compose.yaml
 docker-compose-server.yaml
 .dockerignore
-.gitignore
 README.md
