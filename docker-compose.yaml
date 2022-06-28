@@ -7,6 +7,7 @@ services:
       - "8080:80"
     depends_on:
       - api
+      - database
   database:
     image: postgres
     environment:
@@ -26,7 +27,7 @@ services:
     build: .
     volumes:
       - ./env:/project/env
-#      - .:/project
+      - .:/project
     ports:
       - "8000:8000"
     depends_on:
