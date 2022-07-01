@@ -17,7 +17,7 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    command: ./run.sh
+    command: ./start_p.sh
   database:
     image: postgres
     environment:

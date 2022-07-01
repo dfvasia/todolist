@@ -11,4 +11,4 @@ RUN poetry config virtualenvs.create false --local
 RUN poetry install
 
 COPY . .
-RUN ["chmod", "+x", "./run.sh"]
+RUN ["chmod", "+x", "./start_p.sh"]

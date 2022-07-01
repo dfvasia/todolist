@@ -1,8 +1,11 @@
 version: "3.9"
-   
+
+volumes:
+  todoslim_sql:
+
 services:
   front:
-    image: sermalenk/skypro-front:lesson-34
+    image: sermalenk/skypro-front:lesson-35
     ports:
       - "8080:80"
     depends_on:
@@ -22,15 +25,16 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+#      - ./data/db:/var/lib/postgresql/data
+      -  todoslim_sql:/var/lib/postgresql/data
   api:
     build: .
     volumes:
       - ./env:/project/env
-      - .:/project
+#      - .:/project
     ports:
       - "8000:8000"
     depends_on:
       database:
         condition: service_healthy
-    command: ./run.sh
+    command: ./start_p.sh

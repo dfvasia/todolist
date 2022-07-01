@@ -23,7 +23,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./env:/project/env
-    command: ./run.sh
+    command: ./start_p.sh
   postgres:
     image: postgres:latest
     ports:
