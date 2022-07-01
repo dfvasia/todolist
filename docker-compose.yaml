@@ -1,7 +1,7 @@
 version: "3.9"
 
 volumes:
-  todoslim_sql:
+  todo_slim_sql:
 
 services:
   front:
@@ -26,11 +26,11 @@ services:
       retries: 5
     volumes:
 #      - ./data/db:/var/lib/postgresql/data
-      -  todoslim_sql:/var/lib/postgresql/data
+      -  todo_slim_sql:/var/lib/postgresql/data
   api:
     build: .
     volumes:
-      - ./env:/project/env
+      - ./env:/project/env/
 #      - .:/project
     ports:
       - "8000:8000"

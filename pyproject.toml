@@ -11,6 +11,9 @@ django-environ = "^0.8.1"
 psycopg2 = "^2.9.3"
 django-phonenumber-field = "^6.1.0"
 phonenumbers = "^8.12.50"
+djangorestframework = "^3.13.1"
+djangorestframework-simplejwt = "^5.2.0"
+drf-spectacular = "^0.22.1"
 
 [tool.poetry.dev-dependencies]
 
