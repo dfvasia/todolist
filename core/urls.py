@@ -14,18 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from rest_framework import routers
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from core.views import CoreViewSet
-
-core_pouter = routers.SimpleRouter()
-core_pouter.register("", CoreViewSet, basename="users")
+from core.views import SignupView, LoginView
 
 urlpatterns = [
-    path('token/', TokenObtainPairView.as_view()),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('singup', SignupView.as_view()),
+    path('login', LoginView.as_view()),
 
 ]
 
-urlpatterns += core_pouter.urls
