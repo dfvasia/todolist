@@ -49,4 +49,38 @@ class LoginSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    ...
+    class Meta:
+        model = User
+        read_only_fields = ('id',)
+        fields = (
+            'id',
+            'email',
+            'last_name',
+            'phone',
+            'first_name',
+            'username',
+        )
+
+
+class UpdatePasswordSerializer(serializers.ModelSerializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(
+        write_only=True, validators=[validate_password]
+    )
+
+    class Meta:
+        model = User
+        read_only_fields = ('id',)
+        fields = ('old_password', 'new_password')
+
+    def validate(self, attrs: dict):
+        old_password: str = attrs.get('old_password')
+        user: User = self.instance
+        if user.check_password(old_password):
+            return attrs
+        raise exceptions.ValidationError('действующий пароль  не тот')
+
+    def update(self, instance: User, validated_data):
+        instance.set_password(validated_data['new_password'])
+        instance.save(update_fields=["password"])
+        return instance
