@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'phonenumber_field',
     'social_django',
-    'social_django_mongoengine',
     'drf_spectacular',
 ]
 
