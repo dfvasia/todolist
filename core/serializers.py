@@ -51,7 +51,7 @@ class LoginSerializer(serializers.ModelSerializer):
         username: str = attrs.get('username')
         password: str = attrs.pop('password')
         user = authenticate(username=username, password=password)
-        if user:
+        if user is not None:
             attrs['user'] = user
             return attrs
         raise exceptions.ValidationError('Логин или пароль не корректны')
