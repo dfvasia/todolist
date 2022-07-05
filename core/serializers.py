@@ -15,12 +15,12 @@ class CreateUserSerializer(serializers.ModelSerializer):
         read_only_fields = ("id",)
         fields = (
             'id',
-            'email',
-            'last_name',
-            'password',
-            'phone',
-            'first_name',
             'username',
+            'first_name',
+            'last_name',
+            'email',
+            'password',
+            'password_repeat',
         )
 
     def validate(self, attrs: dict):
