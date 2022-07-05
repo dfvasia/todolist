@@ -38,6 +38,15 @@ class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
 
+    class Meta:
+        model = User
+        read_only_fields = ("id",)
+        fields = (
+            'id',
+            'username',
+            'password',
+        )
+
     def validate(self, attrs: dict):
         username: str = attrs.get('username')
         password: str = attrs.pop('password')

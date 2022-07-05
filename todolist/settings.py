@@ -71,6 +71,7 @@ APPS = ['core']
 INSTALLED_APPS += APPS
 
 MIDDLEWARE = [
+    'todolist.middleware.RequestTimeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
