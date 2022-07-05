@@ -1,8 +1,8 @@
 # Create your views here.
 from django.contrib.auth import login
 from rest_framework.generics import CreateAPIView, GenericAPIView
-from rest_framework.permissions import AllowAny
-
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 
 from core.models import User
 from core.serializers import (
@@ -27,4 +27,16 @@ class LoginView(GenericAPIView):
         user = s.validated_data['user']
         login(request, user=user)
         user_serializer = UserSerializer(instance=user)
-        return Respo
+        return Response(user_serializer.data)
+
+
+class ProfileView(RetrieveUpdateDestroyAPIview):
+    model = User
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+class UpdatePasswordView(UpdateAPIView):
+    ...

@@ -46,3 +46,7 @@ class LoginSerializer(serializers.ModelSerializer):
             attrs['user'] = user
             return attrs
         raise exceptions.ValidationError('Логин или пароль не корректны')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    ...
