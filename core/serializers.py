@@ -34,27 +34,18 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**data)
 
 
-class LoginSerializer(serializers.ModelSerializer):
+class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
 
-    class Meta:
-        model = User
-        read_only_fields = ("id",)
-        fields = (
-            'id',
-            'username',
-            'password',
-        )
-
     def validate(self, attrs: dict):
-        username: str = attrs.get('username')
-        password: str = attrs.pop('password')
+        username = attrs.get("username")
+        password = attrs.get("password")
         user = authenticate(username=username, password=password)
-        if user is not None:
-            attrs['user'] = user
-            return attrs
-        raise exceptions.ValidationError('Логин или пароль не корректны')
+        if not user:
+            raise exceptions.ValidationError('Логин или пароль не корректны')
+        attrs["user"] = user
+        return attrs
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -83,11 +74,11 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
         fields = ('old_password', 'new_password')
 
     def validate(self, attrs: dict):
-        old_password: str = attrs.get('old_password')
+        old_password = attrs.get("old_password")
         user: User = self.instance
-        if user.check_password(old_password):
-            return attrs
-        raise exceptions.ValidationError('действующий пароль  не тот')
+        if not user.check_password(old_password):
+            raise exceptions.ValidationError({'действующий пароль  не тот'})
+        return attrs
 
     def update(self, instance: User, validated_data):
         instance.set_password(validated_data['new_password'])

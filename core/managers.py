@@ -31,7 +31,6 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name=first_name,
             last_name=last_name,
-            phone=phone,
             password=password,
         )
         user.is_staff = True
