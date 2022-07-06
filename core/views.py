@@ -1,4 +1,5 @@
 # Create your views here.
+import django.contrib.auth.backends
 from django.contrib.auth import login, logout
 from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -25,10 +26,8 @@ class LoginView(GenericAPIView):
     def post(self, request, *args, **kwargs) -> Response:
         s: LoginSerializer = self.get_serializer(data=request.data)
         s.is_valid(raise_exception=True)
-        user = s.validated_data['user']
-        login(request, user=user)
-        user_serializer = UserSerializer(instance=user)
-        return Response(user_serializer.data)
+        login(request=request, user=s.validated_data, backend='django.contrib.auth.backends.ModelBackend')
+        return Response(s.data, status=200)
 
 
 class ProfileView(RetrieveUpdateDestroyAPIView):
@@ -41,7 +40,7 @@ class ProfileView(RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         logout(request)
-        return Response({})
+        return Response(status=204)
 
 
 class UpdatePasswordView(UpdateAPIView):

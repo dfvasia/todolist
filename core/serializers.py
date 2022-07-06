@@ -41,7 +41,7 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True, write_only=True)
     password = serializers.CharField(required=True, write_only=True)
 
-    def validate(self, attrs: dict) -> AbstractBaseUser | AbstractBaseUser | None:
+    def validate(self, attrs: dict):
         if user := authenticate(username=attrs['username'], password=attrs['password']):
             return user
         raise exceptions.AuthenticationFailed('Логин или пароль не корректны')
@@ -62,9 +62,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UpdatePasswordSerializer(serializers.ModelSerializer):
-    old_password = serializers.CharField(write_only=True)
+    old_password = serializers.CharField(required=True, write_only=True)
     new_password = serializers.CharField(
-        write_only=True, validators=[validate_password]
+        required=True,
+        write_only=True,
+        validators=[validate_password],
     )
 
     class Meta:

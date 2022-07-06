@@ -23,9 +23,19 @@ class GoalCategory(DatesModelMixin):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
-    title = models.CharField(verbose_name="Название", max_length=255)
-    user = models.ForeignKey(User, verbose_name="Автор", on_delete=models.PROTECT)
-    is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
+    title = models.CharField(
+        verbose_name="Название",
+        max_length=255,
+    )
+    user = models.ForeignKey(
+        User,
+        verbose_name="Автор",
+        on_delete=models.PROTECT,
+    )
+    is_deleted = models.BooleanField(
+        verbose_name="Удалена",
+        default=False,
+    )
 
 
 class Goal(DatesModelMixin):
@@ -52,20 +62,35 @@ class Goal(DatesModelMixin):
         on_delete=models.PROTECT,
     )
     category = models.ForeignKey(
-        GoalCategory, verbose_name="Категория", on_delete=models.PROTECT
+        GoalCategory,
+        verbose_name="Категория",
+        on_delete=models.PROTECT,
     )
-    title = models.CharField(verbose_name="Заголовок", max_length=255)
+    title = models.CharField(
+        verbose_name="Заголовок",
+        max_length=255,
+    )
     description = models.TextField(
-        verbose_name="Описание", null=True, blank=True, default=None
+        verbose_name="Описание",
+        null=True,
+        blank=True,
+        default=None,
     )
     due_date = models.DateField(
-        verbose_name="Дата выполнения", null=True, blank=True, default=None
+        verbose_name="Дата выполнения",
+        null=True,
+        blank=True,
+        default=None,
     )
     status = models.PositiveSmallIntegerField(
-        verbose_name="Статус", choices=Status.choices, default=Status.to_do
+        verbose_name="Статус",
+        choices=Status.choices,
+        default=Status.to_do,
     )
     priority = models.PositiveSmallIntegerField(
-        verbose_name="Приоритет", choices=Priority.choices, default=Priority.medium
+        verbose_name="Приоритет",
+        choices=Priority.choices,
+        default=Priority.medium,
     )
 
     def __str__(self):
