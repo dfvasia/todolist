@@ -63,10 +63,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'phonenumber_field',
     'social_django',
-    'drf_spectacular',
 ]
 
-APPS = ['core', 'goals']
+APPS = ['core', 'goals', 'drf_yasg']
 
 INSTALLED_APPS += APPS
 
