@@ -31,7 +31,7 @@ services:
     build: .
     volumes:
       - ./env:/project/env/
-#      - .:/project
+      - .:/project
     ports:
       - "8000:8000"
     depends_on:
