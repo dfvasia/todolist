@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
 ]
 
-APPS = ['core']
+APPS = ['core', 'goals']
 
 INSTALLED_APPS += APPS
 

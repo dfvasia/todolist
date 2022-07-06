@@ -19,6 +19,8 @@ django-stubs = "^1.12.0"
 social-auth-app-django = "^5.0.0"
 social-auth-app-django-mongoengine = "^1.0.0"
 mongoengine = "^0.24.1"
+filters-django = "^1.0.5"
+django-filter = "^22.1"
 
 [tool.poetry.dev-dependencies]
 
