@@ -199,7 +199,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True
 }
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Курсовая работа №6 API",
+    "TITLE": "Курсовая работа №7 API",
     "DESCRIPTION": "Описание API",
     "VERSION": "0.0.1",
 }
