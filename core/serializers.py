@@ -1,4 +1,7 @@
+from typing import Type
+
 from django.contrib.auth import authenticate
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers, exceptions
 
@@ -35,17 +38,13 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(write_only=True)
-    password = serializers.CharField(write_only=True)
+    username = serializers.CharField(required=True, write_only=True)
+    password = serializers.CharField(required=True, write_only=True)
 
-    def validate(self, attrs: dict):
-        username = attrs.get("username")
-        password = attrs.get("password")
-        user = authenticate(username=username, password=password)
-        if not user:
-            raise exceptions.ValidationError('Логин или пароль не корректны')
-        attrs["user"] = user
-        return attrs
+    def validate(self, attrs: dict) -> AbstractBaseUser | AbstractBaseUser | None:
+        if user := authenticate(username=attrs['username'], password=attrs['password']):
+            return user
+        raise exceptions.AuthenticationFailed('Логин или пароль не корректны')
 
 
 class UserSerializer(serializers.ModelSerializer):

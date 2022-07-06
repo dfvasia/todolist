@@ -22,7 +22,7 @@ class SignupView(CreateAPIView):
 class LoginView(GenericAPIView):
     serializer_class = LoginSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         s: LoginSerializer = self.get_serializer(data=request.data)
         s.is_valid(raise_exception=True)
         user = s.validated_data['user']

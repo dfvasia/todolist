@@ -26,7 +26,7 @@ schema_view = get_schema_view(
         default_version="v1",
         description="Test description",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
+        contact=openapi.Contact(email='dfvasia@gmail.com'),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -39,9 +39,5 @@ urlpatterns = [
     path('oauth/', include('social_django.urls', namespace='social')),
     path('core/', include('core.urls')),
     path("goals/", include("goals.urls")),
-    re_path(
-        r"^swagger/$",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
-    ),
+    re_path(r"^swagger/$", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui",),
 ]
