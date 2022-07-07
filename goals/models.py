@@ -85,6 +85,7 @@ class Goal(DatesModelMixin):
         GoalCategory,
         verbose_name="Категория",
         on_delete=models.PROTECT,
+        related_name='goals'
     )
     title = models.CharField(
         verbose_name="Заголовок",
