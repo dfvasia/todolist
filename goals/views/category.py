@@ -6,7 +6,6 @@ from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
 )
-from rest_framework.pagination import LimitOffsetPagination
 
 from goals.models import GoalCategory, Goal
 from goals.permissions import GoalCategoryPermissions
@@ -26,13 +25,12 @@ class GoalCategoryListView(ListAPIView):
     model = GoalCategory
     permission_classes = [GoalCategoryPermissions]
     serializer_class = GoalCategorySerializer
-    pagination_class = LimitOffsetPagination
     filter_backends = [
         DjangoFilterBackend,
         OrderingFilter,
         SearchFilter,
     ]
-    filterset_fields = ['board', 'user']
+    filterset_fields = ['board']
     ordering_fields = ['title', 'created']
     ordering = ['title']
     search_fields = ['title']
