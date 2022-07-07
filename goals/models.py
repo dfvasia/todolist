@@ -51,7 +51,10 @@ class GoalCategory(DatesModelMixin, IsDeletedMixin):
         on_delete=models.PROTECT,
     )
     board = models.ForeignKey(
-        'Board', verbose_name="Доска", on_delete=models.PROTECT, related_name="categories"
+        'Board',
+        verbose_name="Доска",
+        on_delete=models.PROTECT,
+        related_name="categories",
     )
 
 

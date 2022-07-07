@@ -5,7 +5,7 @@ volumes:
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-36
+    image: sermalenk/skypro-front:lesson-37
     ports:
       - "8080:80"
     depends_on:
