@@ -78,7 +78,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     def validate_goal(self, value):
         if not BoardParticipant.objects.filter(
-                board=value.board_id,
+                board=value.category.board_id,
                 role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
                 user=self.context['request'].user
         ).exists():
