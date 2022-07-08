@@ -30,7 +30,7 @@ env = environ.Env(
         }
     },
     SECRET_KEY=(str, 'test_12345678'),
-    ALLOWED_HOSTS=(list, ""),
+    ALLOWED_HOSTS=(list, ''),
     )
 
 
@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'social_django',
 ]
 
-APPS = ['core', 'goals', 'drf_yasg']
+APPS = ['core', 'goals', 'bot', 'drf_yasg']
 
 INSTALLED_APPS += APPS
 
@@ -135,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = "ru"
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -184,15 +184,15 @@ SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email', 'photos', 'notify']
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/logged-in/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/logged-error/'
 
-MEDIA_URL = "/media/"
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": int(os.environ.get('PAGE_SIZE')),
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': int(os.environ.get('PAGE_SIZE')),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
 SIMPLE_JWT = {
@@ -202,7 +202,8 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True
 }
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Курсовая работа №7 API",
-    "DESCRIPTION": "Описание API",
-    "VERSION": "0.0.1",
+    'TITLE': 'Курсовая работа №7 API',
+    'DESCRIPTION': 'Описание API',
+    'VERSION': '0.0.1',
 }
+BOT_TOKEN = env.str('BOT_TOKEN')
