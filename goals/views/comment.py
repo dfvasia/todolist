@@ -5,9 +5,9 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated
 
 from goals.models import GoalComment
+from goals.permissions import CommentsPermissions
 from goals.serializers import (
     CommentCreateSerializer,
     CommentSerializer,
@@ -17,25 +17,25 @@ from goals.serializers import (
 class CommentCreateView(CreateAPIView):
     model = GoalComment
     serializer_class = CommentCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [CommentsPermissions]
 
 
 class CommentView(RetrieveUpdateDestroyAPIView):
     model = GoalComment
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [CommentsPermissions]
 
     def get_queryset(self):
-        return GoalComment.objects.filter(user=self.request.user)
+        return GoalComment.objects.filter(goal__category__board__participants_user=self.request.user)
 
 
 class CommentListView(ListAPIView):
     model = GoalComment
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [CommentsPermissions]
     filter_backends = [OrderingFilter, DjangoFilterBackend]
     filterset_fields = ["goal"]
     ordering = "-id"
 
     def get_queryset(self):
-        return GoalComment.objects.filter(user=self.request.user)
+        return GoalComment.objects.filter(goal__category__board__participants_user=self.request.user)
