@@ -37,7 +37,7 @@ class GoalCategoryListView(ListAPIView):
 
     def get_queryset(self):
         return GoalCategory.objects.filter(
-            board__participants_user=self.request.user,
+            board__participants__user=self.request.user,
             is_deleted=False,
         )
 
@@ -49,7 +49,7 @@ class GoalCategoryView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return GoalCategory.objects.filter(
-            board__participants_user=self.request.user,
+            board__participants__user=self.request.user,
             is_deleted=False,
         )
 
