@@ -16,11 +16,9 @@ class TgUserSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         verification_code = attrs.pop("verification_code")
-        tg_user_name = cache.get(verification_code)
+        tg_user = TgUser.objects.filter(verification_code=verification_code).first()
 
-        if tg_user_name and (
-            tg_user := TgUser.objects.filter(username=tg_user_name).first()
-        ):
+        if tg_user:
             attrs["tg_user"] = tg_user
             return attrs
 

@@ -2,10 +2,10 @@ import os
 from typing import Any
 
 from django.core.management import BaseCommand
-from django.core.cache import cache
 from bot.models import TgUser
 from bot.tg.client import TgClient
 from bot.tg.dc import Message
+from goals.models import Goal
 from todolist import settings
 
 
@@ -21,12 +21,27 @@ class Command(BaseCommand):
 
     def handle_user_verification(self, msg: Message, tg_user: TgUser):
         code: str = self._generate_verification_code()
-        cache.set(code, tg_user.username, timeout=60 * 3)
+        tg_user.verification_code = code
+        tg_user.save(update_fields=['verification_code'])
 
         self.tg_client.send_message(
             chat_id=msg.chat.id,
-            text=f'[verification code] {code}'
+            text=f'[Ваш код приглашения] {code}'
         )
+
+    def handle_goal_list(self, msg: Message, tg_user: TgUser):
+        resp_goals: list[str] = [
+            f"#{goal.id} {goal.title}"
+            for goal in Goal.objects.filter(user_id=tg_user.user_id)
+        ]
+        self.tg_client.send_message(msg.chat.id, '\n'.join(resp_goals) or 'Целей не нахожу')
+
+    def handle_verified_user(self, msg: Message, tg_user: TgUser):
+        if msg.text == "/goals":
+            self.handle_goal_list(msg=msg, tg_user=tg_user)
+
+        elif msg.text.startswith("/"):
+            self.tg_client.send_message(chat_id=msg.chat.id, text="[Неизвестная команда]")
 
     def handle_message(self, msg: Message):
         tg_user, created = TgUser.objects.get_or_create(
@@ -36,12 +51,11 @@ class Command(BaseCommand):
             },
         )
         if created:
-            self.tg_client.send_message(chat_id=msg.chat.id, text='[hello]')
+            self.tg_client.send_message(chat_id=msg.chat.id, text='[Привет]')
         elif not tg_user.user:
             self.handle_user_verification(msg=msg, tg_user=tg_user)
         else:
-            # self.handle_verified_user(msg=msg, tg_user=tg_user)
-            ...
+            self.handle_verified_user(msg=msg, tg_user=tg_user)
 
     def handle(self, *args: Any, **options: Any):
         offset = 0

@@ -33,3 +33,13 @@ services:
       retries: 5
     volumes:
       - ./data/db:/var/lib/postgresql/data
+  bot:
+    image: $DOCKER_USER/django-6-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    env_file:
+      - env/.env
+    restart: always
+    depends_on:
+      - api
+      - database
+    command: >
+      sh -c "python3 manage.py runbot"

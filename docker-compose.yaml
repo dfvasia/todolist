@@ -38,3 +38,13 @@ services:
       database:
         condition: service_healthy
     command: ./start_p.sh
+  bot:
+    build: .
+    env_file:
+      - env/.env
+    restart: always
+    depends_on:
+      - api
+      - database
+    command: >
+      sh -c "python3 manage.py runbot"
