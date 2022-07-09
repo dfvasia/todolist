@@ -2,10 +2,12 @@ import os
 from typing import Any
 
 from django.core.management import BaseCommand
+
+from bot.management.commands.models import FSM_STATES, FSMData, StateEnum, NewGoal
 from bot.models import TgUser
 from bot.tg.client import TgClient
 from bot.tg.dc import Message
-from goals.models import Goal
+from goals.models import Goal, GoalCategory
 from todolist import settings
 
 
@@ -29,6 +31,19 @@ class Command(BaseCommand):
             text=f'[Ваш код приглашения] {code}'
         )
 
+    def handle_goal_cat_list(self, msg: Message, tg_user: TgUser):
+        resp_cats: list[str] = [
+            f"#{cat.id} {cat.title}"
+            for cat in GoalCategory.objects.filter(
+                board__participants__user_id=tg_user.user_id,
+                is_deleted=False
+            )
+        ]
+        if resp_cats:
+            self.tg_client.send_message(msg.chat.id, 'Выберите категорию\n{}'.format('\n'.join(resp_cats)))
+        else:
+            self.tg_client.send_message(msg.chat.id, 'нет категорий')
+
     def handle_goal_list(self, msg: Message, tg_user: TgUser):
         resp_goals: list[str] = [
             f"#{goal.id} {goal.title}"
@@ -40,8 +55,17 @@ class Command(BaseCommand):
         if msg.text == "/goals":
             self.handle_goal_list(msg=msg, tg_user=tg_user)
 
+        elif msg.text == "/create":
+            self.handle_goal_cat_list(msg=msg, tg_user=tg_user)
+            FSM_STATES[tg_user.chat_id] = FSMData(state=StateEnum.CREATE_CATEGORY_STATE, goals=NewGoal)
+
+        elif msg.text == "/cancel" and tg_user.chat_id in FSM_STATES:
+            FSM_STATES.pop(tg_user.chat_id)
+
         elif msg.text.startswith("/"):
             self.tg_client.send_message(chat_id=msg.chat.id, text="[Неизвестная команда]")
+
+        print(FSM_STATES)
 
     def handle_message(self, msg: Message):
         tg_user, created = TgUser.objects.get_or_create(
