@@ -1,15 +1,17 @@
 from dataclasses import field
+from typing import Type, ClassVar
 
 from marshmallow import EXCLUDE
+from marshmallow import Schema
 from marshmallow_dataclass import dataclass
 
 
 @dataclass
 class MessageFrom:
     id: int
+    username: str
     first_name: str
     last_name: str | None = None
-    username: str
 
     class Meta:
         unknown = EXCLUDE
@@ -53,6 +55,8 @@ class GetUpdatesResponse:
     ok: bool
     result: list[UpdateObj]
 
+    Schema: ClassVar[Type[Schema]] = Schema
+
     class Meta:
         unknown = EXCLUDE
 
@@ -61,6 +65,8 @@ class GetUpdatesResponse:
 class SendMessageResponse:
     ok: bool
     result: Message
+
+    Schema: ClassVar[Type[Schema]] = Schema
 
     class Meta:
         unknown = EXCLUDE
