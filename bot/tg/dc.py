@@ -1,72 +1,44 @@
-from dataclasses import field
-from typing import Type, ClassVar
+from typing import List, Optional
 
-from marshmallow import EXCLUDE
-from marshmallow import Schema
-from marshmallow_dataclass import dataclass
+from pydantic import BaseModel, Field
 
 
-@dataclass
-class MessageFrom:
+class MessageFrom(BaseModel):
     id: int
     username: str
     first_name: str
-    last_name: str | None = None
-
-    class Meta:
-        unknown = EXCLUDE
+    last_name: Optional[str]
 
 
-@dataclass
-class Char:
+class Chat(BaseModel):
     id: int
     type: str
-    first_name: str | None = None
-    last_name: str | None = None
-    username: str | None = None
-    title: str | None = None
-
-    class Meta:
-        unknown = EXCLUDE
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    username: Optional[str] = None
+    title: Optional[str] = None
 
 
-@dataclass
-class Message:
+class Message(BaseModel):
     message_id: int
-    from_: MessageFrom = field(metadata={'date_key': 'from'})
-    char: Char
+    from_: MessageFrom = Field(..., alias="from")
+    chat: Chat
     text: str
 
-    class Meta:
-        unknown = EXCLUDE
+    class Config:
+        allow_population_by_field_name = True
 
 
-@dataclass
-class UpdateObj:
+class UpdateObj(BaseModel):
     update_id: int
     message: Message
 
-    class Meta:
-        unknown = EXCLUDE
 
-
-@dataclass
-class GetUpdatesResponse:
+class GetUpdatesResponse(BaseModel):
     ok: bool
-    result: list[UpdateObj]
-
-    Schema: ClassVar[Type[Schema]] = Schema
-
-    class Meta:
-        unknown = EXCLUDE
+    result: List[UpdateObj]
 
 
-@dataclass
-class SendMessageResponse:
+class SendMessageResponse(BaseModel):
     ok: bool
     result: Message
-
-    Schema: ClassVar[Type[Schema]] = Schema
-
-    class Meta:
-        unknown = EXCLUDE
