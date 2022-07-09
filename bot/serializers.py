@@ -24,4 +24,4 @@ class TgUserSerializer(serializers.ModelSerializer):
             attrs["tg_user"] = tg_user
             return attrs
 
-        raise ValidationError({"verification_code": "field is incorrect"})
+        raise ValidationError({"verification_code": "Поле не корректно"})

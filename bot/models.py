@@ -4,7 +4,7 @@ from core.models import User
 
 
 class TgUser(models.Model):
-    chat_id = models.PositiveSmallIntegerField(unique=True)
+    chat_id = models.PositiveBigIntegerField(unique=True)
     username = models.CharField(max_length=255, null=True, blank=True, default=None)
     user = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, default=None)
 
