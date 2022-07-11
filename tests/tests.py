@@ -7,6 +7,7 @@ from goals.serializers import GoalCategorySerializer
 CATEGORY_NAME = 'category_name'
 
 
+
 @pytest.mark.django_db
 def test_get_all_owner(
         client,
