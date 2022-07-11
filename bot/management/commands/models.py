@@ -15,8 +15,8 @@ class NewGoal(BaseModel):
 
 @unique
 class StateEnum(Enum):
-    CREATE_CATEGORY_STATE = 1
-    CHOOSE_CATEGORY = 2
+    CREATE_CATEGORY_STATE = auto()
+    CHOOSE_CATEGORY = auto()
 
 
 class FSMData(BaseModel):

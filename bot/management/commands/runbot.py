@@ -51,6 +51,35 @@ class Command(BaseCommand):
         ]
         self.tg_client.send_message(msg.chat.id, '\n'.join(resp_goals) or 'Целей не нахожу')
 
+    def handle_save_selected_category(self, msg: Message, tg_user: TgUser):
+        if msg.text.isdigit():
+            cat_id = int(msg.text)
+            if GoalCategory.objects.filter(
+                board__participants__user_id=tg_user.user_id,
+                is_deleted=False,
+                id=cat_id
+            ).count():
+                FSM_STATES[tg_user.chat_id].goal.cat_id = cat_id
+                self.tg_client.send_message(chat_id=msg.chat.id, text="[наименования категории]")
+                FSM_STATES[tg_user.chat_id].state = StateEnum.CHOOSE_CATEGORY
+                return
+        self.tg_client.send_message(chat_id=msg.chat.id, text="[не правильная категории]")
+
+    def handle_save_new_goal(self, msg: Message, tg_user: TgUser):
+        goal: NewGoal = FSM_STATES[tg_user.chat_id].goal
+
+        goal.goal_title = msg.text
+        if goal.complete():
+            Goal.objects.create(
+                title=goal.goal_title,
+                category_id=goal.cat_id,
+                user_id=tg_user.user_id
+            )
+            self.tg_client.send_message(msg.chat.id, text='[Создано]')
+        else:
+            self.tg_client.send_message(msg.chat.id, text='[Что то не так]')
+        FSM_STATES.pop(tg_user.chat_id, None)
+
     def handle_verified_user(self, msg: Message, tg_user: TgUser):
         if msg.text == "/goals":
             self.handle_goal_list(msg=msg, tg_user=tg_user)
@@ -61,6 +90,13 @@ class Command(BaseCommand):
 
         elif msg.text == "/cancel" and tg_user.chat_id in FSM_STATES:
             FSM_STATES.pop(tg_user.chat_id)
+
+        elif tg_user.chat_id in FSM_STATES:
+            state: StateEnum = FSM_STATES[tg_user.chat_id].state
+            if state == StateEnum.CREATE_CATEGORY_STATE:
+                self.handle_save_selected_category(msg=msg, tg_user=tg_user)
+            else:
+                self.handle_save_new_goal(msg=msg, tg_user=tg_user)
 
         elif msg.text.startswith("/"):
             self.tg_client.send_message(chat_id=msg.chat.id, text="[Неизвестная команда]")
@@ -88,5 +124,4 @@ class Command(BaseCommand):
             for item in res.result:
                 offset = item.update_id + 1
                 print(item.message)
-                # self.tg_client.send_message(chat_id=item.message.chat.id, text=item.message.text)
                 self.handle_message(msg=item.message)
