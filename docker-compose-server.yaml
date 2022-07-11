@@ -36,7 +36,7 @@ services:
   bot:
     image: $DOCKER_USER/django-6-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     env_file:
-      - ./env:/project/env
+      - ./env/.env
     restart: always
     depends_on:
       - api
