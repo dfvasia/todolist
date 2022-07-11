@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  front:
+    image: sermalenk/skypro-front:lesson-38
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+  api:
+    image: $DOCKER_USER/django-6-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    volumes:
+      - ./env:/project/env
+#      - .:/project
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+    command: ./start_p.sh
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_DB=todoslim
+      - POSTGRES_USER=skypro
+      - POSTGRES_PASSWORD=postgres1234
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U skypro -d todoslim" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+  bot:
+    image: $DOCKER_USER/django-6-app:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    env_file:
+      - ./env/.env
+    restart: always
+    depends_on:
+      - api
+      - database
+    command: >
+      sh -c "python3 manage.py runbot"

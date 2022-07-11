@@ -1,0 +1,9 @@
+*idea*
+*git*
+env/.env
+*Dockerfile*
+docker-compose-v1.yaml
+docker-compose.yaml
+docker-compose-server.yaml
+.dockerignore
+README.md

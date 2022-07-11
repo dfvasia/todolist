@@ -6,7 +6,7 @@ class UserManager(BaseUserManager):
     функция создания пользователя — в нее мы передаем обязательные поля
     """
 
-    def create_user(self, username, email, first_name, last_name, phone, password=None):
+    def create_user(self, username, email, first_name, last_name, password=None):
         if not email:
             raise ValueError('Users must have an email address')
         user = self.model(
@@ -14,7 +14,6 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name=first_name,
             last_name=last_name,
-            phone=phone,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -32,8 +31,10 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name=first_name,
             last_name=last_name,
-            phone=phone,
             password=password,
         )
+        user.is_staff = True
+        user.is_active = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user

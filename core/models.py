@@ -7,8 +7,9 @@ from core.managers import UserManager
 
 
 class User(AbstractUser):
-    username = models.CharField(error_messages={'Незаполненно поле'}, help_text='150 символов или знаков. Только, буквы, цифры и @/./+/-/_.',
-                                  max_length=150, verbose_name='Пользователь', unique=True, blank=False, null=False)
+    # username = models.CharField(error_messages={'Незаполненно поле'}, help_text='150 символов или знаков. Только, буквы, цифры и @/./+/-/_.',
+    #                              max_length=150, verbose_name='Пользователь', unique=True, blank=False, null=False)
+    username = models.CharField(max_length=150, verbose_name='Пользователь', unique=True, blank=False, null=False)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True, max_length=200, verbose_name='Почтовый ящик')
@@ -28,6 +29,6 @@ class User(AbstractUser):
         verbose_name_plural = "Пользователи"
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['username', 'email', 'first_name', 'last_name', 'phone']
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
     objects = UserManager()
