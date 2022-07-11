@@ -57,7 +57,7 @@ class Command(BaseCommand):
 
         elif msg.text == "/create":
             self.handle_goal_cat_list(msg=msg, tg_user=tg_user)
-            FSM_STATES[tg_user.chat_id] = FSMData(state=StateEnum.CREATE_CATEGORY_STATE, goals=NewGoal)
+            FSM_STATES[tg_user.chat_id] = FSMData(state=StateEnum.CREATE_CATEGORY_STATE, goal=NewGoal())
 
         elif msg.text == "/cancel" and tg_user.chat_id in FSM_STATES:
             FSM_STATES.pop(tg_user.chat_id)

@@ -1,4 +1,4 @@
-from enum import Enum, unique, auto, IntFlag
+from enum import Enum, unique, auto
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel
@@ -15,8 +15,8 @@ class NewGoal(BaseModel):
 
 @unique
 class StateEnum(Enum):
-    CREATE_CATEGORY_STATE = auto
-    CHOOSE_CATEGORY = auto
+    CREATE_CATEGORY_STATE = 1
+    CHOOSE_CATEGORY = 2
 
 
 class FSMData(BaseModel):

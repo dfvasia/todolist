@@ -47,4 +47,4 @@ services:
       - api
       - database
     command: >
-      sh -c "python3 manage.py runbot"
+      sh -c "python manage.py runbot"
