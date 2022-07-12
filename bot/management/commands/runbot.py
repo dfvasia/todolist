@@ -101,8 +101,6 @@ class Command(BaseCommand):
         elif msg.text.startswith("/"):
             self.tg_client.send_message(chat_id=msg.chat.id, text="[Неизвестная команда]")
 
-        print(FSM_STATES)
-
     def handle_message(self, msg: Message):
         tg_user, created = TgUser.objects.get_or_create(
             chat_id=msg.chat.id,
@@ -123,5 +121,4 @@ class Command(BaseCommand):
             res = self.tg_client.get_updates(offset=offset)
             for item in res.result:
                 offset = item.update_id + 1
-                print(item.message)
                 self.handle_message(msg=item.message)

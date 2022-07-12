@@ -1,16 +1,14 @@
 from enum import Enum, unique, auto
 from typing import Optional
-from datetime import date
 from pydantic import BaseModel
 
 
 class NewGoal(BaseModel):
     cat_id: Optional[int] = None
     goal_title: Optional[str] = None
-    due_date: Optional[date] = None  # datetime.now()
 
     def complete(self) -> bool:
-        return None not in (self.cat_id, self.goal_title, self.due_date)
+        return None not in (self.cat_id, self.goal_title)
 
 
 @unique
