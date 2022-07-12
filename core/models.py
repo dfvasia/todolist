@@ -29,6 +29,7 @@ class User(AbstractUser):
         verbose_name_plural = "Пользователи"
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
+    # REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['email']
 
     objects = UserManager()
